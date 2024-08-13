@@ -1,0 +1,49 @@
+# Gradle 관련 파일들
+.gradle/
+build/
+!gradle/wrapper/gradle-wrapper.jar
+
+# IntelliJ IDEA 관련 파일들
+.idea/
+*.iws
+*.iml
+*.ipr
+out/
+!**/src/main/**/out/
+!**/src/test/**/out/
+
+# Eclipse 관련 파일들
+.apt_generated
+.classpath
+.factorypath
+.project
+.settings
+.springBeans
+.sts4-cache
+bin/
+!**/src/main/**/bin/
+!**/src/test/**/bin/
+
+# NetBeans 관련 파일들
+/nbproject/private/
+/nbbuild/
+/dist/
+/nbdist/
+/.nb-gradle/
+
+# VS Code 관련 파일들
+.vscode/
+
+# Mac OS 관련 파일들
+.DS_Store
+
+# Windows 관련 파일들
+Thumbs.db
+
+# 빌드 결과물
+build/
+!gradle/wrapper/gradle-wrapper.jar
+
+# 시스템 파일들
+.DS_Store
+Thumbs.db
