@@ -1,6 +1,0 @@
-[submodule "E2E-keypad-BE/simple-start-spring"]
-	path = E2E-keypad-BE/simple-start-spring
-	url = https://github.com/chae1xx1os/backend-repo.git
-[submodule "E2E-keypad-FE/e2e-keypad-frontend"]
-	path = E2E-keypad-FE/e2e-keypad-frontend
-	url = https://github.com/chae1xx1os/frontend-repo.git
