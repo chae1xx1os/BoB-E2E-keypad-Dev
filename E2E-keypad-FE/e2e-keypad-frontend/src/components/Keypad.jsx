@@ -2,20 +2,9 @@ import React, { useEffect, useState } from 'react';
 import { fetchKeypadData } from '../services/api';
 import '../styles/Keypad.css';
 
-// SHA-256 해시 함수
-async function hashInput(input) {
-    const encoder = new TextEncoder();
-    const data = encoder.encode(input);
-    const hashBuffer = await crypto.subtle.digest('SHA-256', data);
-    const hashArray = Array.from(new Uint8Array(hashBuffer));
-    const hashHex = hashArray.map(byte => byte.toString(16).padStart(2, '0')).join('');
-    return hashHex;
-}
-
 const Keypad = ({ onSubmit = (values) => console.log('Submitted values:', values) }) => {
     const [keypadData, setKeypadData] = useState(null);
     const [inputValues, setInputValues] = useState([]);
-    const [hashedValues, setHashedValues] = useState([]);
 
     useEffect(() => {
         const getData = async () => {
@@ -29,17 +18,13 @@ const Keypad = ({ onSubmit = (values) => console.log('Submitted values:', values
         getData();
     }, []);
 
-    const handleClick = async (key) => {
+    const handleClick = (key) => {
         if (key !== "blank" && inputValues.length < 6) {
             const newInputValues = [...inputValues, key];
             setInputValues(newInputValues);
 
-            const hashedKey = await hashInput(key);
-            const newHashedValues = [...hashedValues, hashedKey];
-            setHashedValues(newHashedValues);
-
             if (newInputValues.length === 6) {
-                alert(`Hashed Input: \n${newHashedValues.join('\n')}`);
+                alert(`SUCCESS - ${newInputValues.join(', ')}`);
                 window.location.reload(); // 페이지 새로고침
             }
         }
@@ -47,12 +32,10 @@ const Keypad = ({ onSubmit = (values) => console.log('Submitted values:', values
 
     const handleDelete = () => {
         setInputValues(inputValues.slice(0, -1)); // 마지막 입력값 삭제
-        setHashedValues(hashedValues.slice(0, -1)); // 마지막 해시값 삭제
     };
 
     const handleClear = () => {
         setInputValues([]); // 모든 입력값 초기화
-        setHashedValues([]); // 모든 해시값 초기화
     };
 
     const { layout } = keypadData || {};

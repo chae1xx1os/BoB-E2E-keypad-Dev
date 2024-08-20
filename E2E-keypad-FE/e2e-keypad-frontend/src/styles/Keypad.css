@@ -1,8 +1,7 @@
-/* Keypad.css */
+/* src/styles/Keypad.css */
 
-/* 전체 배경 색상을 설정 */
 .App {
-    background-color: #2DB400; /* 네이버페이 결제 UI의 녹색 배경 */
+    background-color: #2DB400;
     min-height: 100vh;
     display: flex;
     justify-content: center;
@@ -10,23 +9,21 @@
     font-family: Arial, sans-serif;
 }
 
-/* 키패드 UI를 중심에 배치하기 위해 컨테이너 조정 */
 .keypad-container {
     display: flex;
     flex-direction: column;
     align-items: center;
     padding: 20px;
-    background-color: #FFFFFF; /* 흰색 배경으로 키패드 구분 */
+    background-color: #FFFFFF;
     border-radius: 10px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
 
-/* 기존 스타일 유지 */
 .input-display {
     display: flex;
     justify-content: space-between;
     width: 200px;
-    margin-bottom: 40px; /* 키패드와 동그라미 사이에 간격 추가 */
+    margin-bottom: 40px;
 }
 
 .input-dot {
@@ -44,17 +41,17 @@
 
 .keypad {
     display: grid;
-    grid-template-columns: repeat(4, 1fr); /* 4개의 열 */
+    grid-template-columns: repeat(4, 1fr);
     gap: 10px;
-    width: 320px; /* 4개의 열에 맞춰 너비를 조정 */
+    width: 320px;
     margin-bottom: 20px;
 }
 
 .keypad-button {
     width: 100%;
-    height: 80px; /* 버튼 크기를 늘림 */
+    height: 80px;
     border: none;
-    background-color: transparent; /* 배경을 투명하게 */
+    background-color: transparent;
     border-radius: 8px;
     cursor: pointer;
     background-size: contain;
@@ -70,7 +67,7 @@
 .keypad-controls {
     display: flex;
     justify-content: space-between;
-    width: 320px; /* 키패드 너비와 동일하게 */
+    width: 320px;
 }
 
 .control-button {
