@@ -4,8 +4,8 @@ import bob.simple.spring.model.KeypadResponse
 import org.springframework.stereotype.Service
 import java.awt.image.BufferedImage
 import java.io.ByteArrayOutputStream
-import java.nio.file.Files
 import java.nio.file.Paths
+import java.security.MessageDigest
 import java.util.*
 import javax.imageio.ImageIO
 
@@ -20,8 +20,8 @@ class KeypadService {
 
     // 키패드 이미지를 불러와서 Base64로 인코딩된 문자열로 반환
     fun buildKeypadImage(layout: List<String>): String {
-        val width = 300 // 전체 키패드 이미지의 가로 크기 (단위: 픽셀)
-        val height = 400 // 전체 키패드 이미지의 세로 크기 (단위: 픽셀)
+        val width = 300
+        val height = 400
         val keypadImage = BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB)
         val graphics = keypadImage.createGraphics()
 
@@ -45,14 +45,42 @@ class KeypadService {
         return Base64.getEncoder().encodeToString(imageBytes)
     }
 
+    // HMAC 생성
+    private fun generateHMAC(data: String, key: String): String {
+        val hmacKey = key.toByteArray()
+        val mac = MessageDigest.getInstance("SHA-256")
+        mac.update(hmacKey)
+        val digest = mac.digest(data.toByteArray())
+        return Base64.getEncoder().encodeToString(digest)
+    }
+
+    // ID 및 timestamp 유효성 검증
+    fun validateIdAndTimestamp(keypadId: String, timestamp: String, hash: String, secretKey: String): Boolean {
+        val calculatedHash = generateHMAC(keypadId + timestamp, secretKey)
+        return calculatedHash == hash
+    }
+
+    // userInput 복호화
+    fun decryptUserInput(userInput: String, keyHashMap: Map<String, String>): String {
+        return userInput.map { keyHashMap[it.toString()] ?: error("Invalid key") }.joinToString("")
+    }
+
     // 키패드 응답 데이터 생성
     fun generateKeypadResponse(): KeypadResponse {
         val layout = generateShuffledLayout()
         val imageBase64 = buildKeypadImage(layout)
 
+        val keypadId = UUID.randomUUID().toString()
+        val timestamp = System.currentTimeMillis().toString()
+        val secretKey = "your-secret-key"
+        val hash = generateHMAC(keypadId + timestamp, secretKey)
+
         return KeypadResponse(
             layout = layout,
-            imageBase64 = imageBase64
+            imageBase64 = imageBase64,
+            keypadId = keypadId,
+            timestamp = timestamp,
+            hash = hash
         )
     }
 }
